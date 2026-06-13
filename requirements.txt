@@ -1,0 +1,8 @@
+# Core deep learning library (TensorFlow 2.x includes Keras).
+tensorflow>=2.12,<3.0
+
+# Used by predict.py for array math.
+numpy>=1.23
+
+# Pillow lets Keras open and resize image files (PNG, JPG, etc.).
+pillow>=9.0
