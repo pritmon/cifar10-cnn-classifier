@@ -1,175 +1,169 @@
-# CIFAR-10 CNN Image Classifier
+<div align="center">
 
-A TensorFlow / Keras project that trains a small
-Convolutional Neural Network (CNN) to classify 32x32 color images into
-**10 categories**:
+# 🖼️ CIFAR-10 CNN Image Classifier
 
-`airplane, automobile, bird, cat, deer, dog, frog, horse, ship, truck`
+**Teaching a machine to see — a clean, fully-documented Convolutional Neural Network that sorts tiny photos into 10 categories.**
 
-The code is heavily commented so you can learn what each piece does and why.
+[![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-FF6F00?logo=tensorflow&logoColor=white)](https://www.tensorflow.org/)
+[![Keras](https://img.shields.io/badge/Keras-Sequential%20API-D00000?logo=keras&logoColor=white)](https://keras.io/)
+[![Accuracy](https://img.shields.io/badge/Test%20Accuracy-75.4%25-success)](#-results)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
----
-
-## Project structure
-
-```
-cifar10-cnn-classifier/
-├── train.py               # build, train, and save the model
-├── predict.py             # load the model and predict on one image
-├── make_sample_images.py  # helper: saves a few CIFAR-10 images to predict on
-├── model/                 # the trained model is saved here
-├── sample_images/         # test images for predict.py
-├── requirements.txt       # Python dependencies
-└── README.md              # this file
-```
+</div>
 
 ---
 
-## The model (a 3-block CNN)
+## 🎯 Mission
 
-Built with the Keras **Sequential** API:
+Most deep-learning examples hand you a black box. This project does the
+opposite: it is a **small, honest, end-to-end image classifier where every
+design decision is explained** — readable code, a measurable baseline, and a
+clear path from a naïve model to a stronger one. The goal is not just a
+classifier, but a transparent reference you can read, run, and extend.
 
-```
-Input (32x32x3)
- → Conv2D(32) → MaxPool      # block 1: learn simple edges/colors
- → Conv2D(64) → MaxPool      # block 2: learn shapes
- → Conv2D(128) → MaxPool     # block 3: learn complex features
- → Flatten
- → Dense(128, relu)
- → Dropout(0.3)              # reduce overfitting
- → Dense(10, softmax)        # output: probability for each class
-```
+It classifies 32×32 colour images into **10 classes**:
 
-Pixel values are normalized (divided by 255) so they fall in the 0–1 range,
-which helps the network train faster and more reliably.
+`airplane` · `automobile` · `bird` · `cat` · `deer` · `dog` · `frog` · `horse` · `ship` · `truck`
 
 ---
 
-## Step 1 — Install
+## ✨ Highlights
 
-You need **Python 3.9–3.11** (TensorFlow 2.x supports these well).
+- 🧱 **3-block CNN** built with the clean Keras `Sequential` API
+- 📝 **Every block commented** — written to be read, not just run
+- 🔁 **Two trainers**: a baseline (`train.py`) and an augmented, higher-accuracy version (`train_augmented.py`)
+- 🎛️ **Data augmentation** (flip / rotate / zoom) that measurably improves the hardest classes
+- 🔮 **One-command prediction** on any image, with top-3 guesses and confidence
+- 📦 **Trained models included** — predict immediately, no training required
 
-It is best to use a virtual environment so packages stay isolated:
+---
+
+## 🚀 Quickstart
 
 ```bash
-# from inside the cifar10-cnn-classifier/ folder
+# 1. Clone and enter
+git clone https://github.com/pritmon/cifar10-cnn-classifier.git
+cd cifar10-cnn-classifier
 
-# create and activate a virtual environment
+# 2. Set up an isolated environment
 python -m venv venv
-source venv/bin/activate        # macOS / Linux
-# venv\Scripts\activate         # Windows (PowerShell/CMD)
-
-# install the dependencies
+source venv/bin/activate          # Windows: venv\Scripts\activate
 pip install -r requirements.txt
-```
 
----
-
-## Step 2 — Train the model
-
-```bash
-python train.py
-```
-
-What happens:
-
-1. CIFAR-10 downloads automatically the first time (~170 MB).
-2. The CNN trains for **15 epochs** with `batch_size=64` and a 20%
-   validation split.
-3. After every epoch you'll see the **training accuracy** and
-   **validation accuracy** printed by Keras, for example:
-   ```
-   Epoch 5/15
-   625/625 [====] - loss: 0.78 - accuracy: 0.72 - val_loss: 0.85 - val_accuracy: 0.70
-   ```
-4. The model is evaluated on the test set and saved to
-   `model/cifar10_model.keras`.
-
-> Training on a CPU takes a few minutes per epoch. A GPU is much faster but
-> not required. Expect roughly **70–75% test accuracy** with this simple model.
-
----
-
-## Step 3 — Get some images to predict on
-
-Save a few real CIFAR-10 images into `sample_images/`:
-
-```bash
-python make_sample_images.py
-```
-
-This creates files like `sample_images/cat.png`, `sample_images/dog.png`, etc.
-You can also use any of your own JPG/PNG images.
-
----
-
-## Step 4 — Predict
-
-Pass an image path to `predict.py`:
-
-```bash
-python predict.py sample_images/cat.png
+# 3. Predict right away (a trained model ships with the repo)
+python predict.py sample_images/ship.png
 ```
 
 Example output:
 
 ```
-Predicted class: cat
-Confidence: 87.34%
+Predicted class: ship
+Confidence: 97.41%
 
 Top 3 guesses:
-  1. cat          87.34%
-  2. dog          8.12%
-  3. deer         2.05%
+  1. ship         97.41%
+  2. automobile    2.59%
+  3. airplane      0.00%
 ```
 
----
-
-## Troubleshooting
-
-- **`ModuleNotFoundError: No module named 'tensorflow'`** — activate your
-  virtual environment and re-run `pip install -r requirements.txt`.
-- **`model not found`** when predicting — run `python train.py` first.
-- **Slow training** — that's normal on a CPU; reduce `epochs` in `train.py`
-  while experimenting.
-- **Low confidence on your own photos** — CIFAR-10 images are tiny (32x32)
-  and cover only 10 specific classes, so unusual photos may confuse the model.
+Want to train from scratch instead? → `python train.py`
 
 ---
 
-## Bonus: the augmented model (`train_augmented.py`)
+## 🧠 How it works
 
-`train_augmented.py` is an upgraded version of the trainer. It adds **data
-augmentation** — three layers (`RandomFlip`, `RandomRotation`, `RandomZoom`)
-that randomly tweak each image during training so the model sees more variety
-and stops memorizing. It also trains for more epochs (55).
+The model reads an image as a stack of numbers and passes it through three
+"detector" blocks. Each block finds richer patterns while shrinking the image,
+so deeper layers see the *big picture* rather than single pixels.
+
+```
+Input 32×32×3
+  │
+  ├─ Conv2D(32)  → MaxPool   ·  finds edges & colours      ·  32×32 → 16×16
+  ├─ Conv2D(64)  → MaxPool   ·  finds shapes               ·  16×16 → 8×8
+  ├─ Conv2D(128) → MaxPool   ·  finds parts (ears, wheels) ·  8×8 → 4×4
+  │
+  ├─ Flatten → Dense(128)    ·  the learned "fingerprint" of the image
+  ├─ Dropout(0.3)            ·  prevents memorising (regularisation)
+  └─ Dense(10, softmax)      ·  probability for each of the 10 classes
+```
+
+Pixels are normalised to the `0–1` range before training for stable learning.
+
+---
+
+## 📊 Results
+
+| Model | Training | Test accuracy | Notes |
+|-------|----------|:---:|-------|
+| `cifar10_model.keras` | 15 epochs | **74.4%** | Strong baseline, but overfits the training data |
+| `cifar10_model_augmented.keras` | 55 epochs + augmentation | **75.4%** | Learns honestly; far stronger on confusable classes |
+
+**The augmentation win, made concrete** — on a sample `cat` image, model
+confidence in the correct class climbed dramatically as augmentation and
+training were added:
+
+```
+cat confidence:   3.9%  →  34.1%  →  68.7%   (finally the #1 prediction)
+```
+
+> CIFAR-10's `cat` vs `dog` is famously the hardest pair to separate at 32×32.
+> Closing that gap is exactly where data augmentation pays off most.
+
+---
+
+## 🛠️ The augmented model
+
+`train_augmented.py` adds three augmentation layers at the front of the network:
+
+```python
+layers.RandomFlip("horizontal")   # mirror left–right
+layers.RandomRotation(0.1)        # tilt slightly
+layers.RandomZoom(0.1)            # zoom in / out
+```
+
+These randomly perturb every image *during training only*, so the model never
+sees the same picture twice — forcing it to learn the underlying object instead
+of memorising specific photos.
 
 ```bash
 python train_augmented.py
-```
-
-It saves to `model/cifar10_model_augmented.keras` (separate from the original,
-so both are kept). Predict with it by passing the model path as a second
-argument:
-
-```bash
+# then predict with the augmented model:
 python predict.py sample_images/cat.png model/cifar10_model_augmented.keras
 ```
 
-Results compared:
+---
 
-| Model | Test accuracy | Notes |
-|-------|---------------|-------|
-| `cifar10_model.keras` (15 epochs) | ~74% | overfits (memorizes training data) |
-| `cifar10_model_augmented.keras` (55 epochs + augmentation) | ~75% | learns honestly, much better on the hard cat/dog classes |
+## 📁 Project structure
 
-The biggest win is on the easily-confused `cat` class: augmentation took its
-confidence on a sample cat from ~4% up to ~69%.
+```
+cifar10-cnn-classifier/
+├── train.py                 # baseline trainer (build → train → save)
+├── train_augmented.py       # augmented trainer (higher accuracy)
+├── predict.py               # load a model, classify any image
+├── make_sample_images.py    # save a few real CIFAR-10 images to test on
+├── model/                   # trained models (.keras)
+├── sample_images/           # ready-to-use test images
+├── requirements.txt
+├── LICENSE
+└── README.md
+```
 
 ---
 
-## What to try next
+## 🗺️ Roadmap
 
-- Change the number of `epochs` or `filters` and watch the accuracy change.
-- Add another Conv2D block or `BatchNormalization` to push past 80%.
-- Use a pre-trained model to handle full-size, real-world photos.
+- [ ] Add `BatchNormalization` and a 4th conv block to push past 80%
+- [ ] Fine-tune a pre-trained backbone to handle full-resolution, real-world photos
+- [ ] Ship a drag-and-drop web demo
+
+---
+
+## 📄 License
+
+Released under the [MIT License](LICENSE) — free to use, learn from, and build on.
+
+<div align="center">
+<sub>A hands-on study of convolutional neural networks — built, measured, and improved. 🐱</sub>
+</div>
