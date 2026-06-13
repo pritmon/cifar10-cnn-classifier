@@ -139,50 +139,93 @@ python predict.py sample_images/cat.png model/cifar10_model_augmented.keras
 
 Every tool here was picked for a specific reason. Plain-English explanations below.
 
-### Languages & libraries
+### 📚 Languages & libraries
+
+<div align="center">
+
+![Python](https://img.shields.io/badge/Python_3-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![TensorFlow](https://img.shields.io/badge/TensorFlow_2-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white)
+![Keras](https://img.shields.io/badge/Keras-D00000?style=for-the-badge&logo=keras&logoColor=white)
+![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white)
+![Pillow](https://img.shields.io/badge/Pillow-528DD7?style=for-the-badge&logo=python&logoColor=white)
+
+</div>
 
 | Tool | What it is | Why it's used (easy English) |
 |------|-----------|------------------------------|
-| **Python 3** | The programming language | The standard language for AI — simple to read and has every ML library. |
-| **TensorFlow 2** | The deep-learning engine | Does all the heavy training math for us. We just describe the model; it runs the millions of calculations. |
-| **Keras** (inside TensorFlow) | A friendly layer on top of TensorFlow | Lets us build the network by stacking layers like LEGO, instead of writing raw math. |
-| **NumPy** | Fast number/array maths | Used in `predict.py` to handle the image as a grid of numbers and to pick the winning class. |
-| **Pillow (PIL)** | Image loading & resizing | Opens your `.jpg`/`.png` file and shrinks it to the 32×32 size the model expects. |
+| 🐍 **Python 3** | The programming language | The standard language for AI — simple to read and has every ML library. |
+| 🔶 **TensorFlow 2** | The deep-learning engine | Does all the heavy training math for us. We just describe the model; it runs the millions of calculations. |
+| 🔴 **Keras** (inside TensorFlow) | A friendly layer on top of TensorFlow | Lets us build the network by stacking layers like LEGO, instead of writing raw math. |
+| 🔵 **NumPy** | Fast number/array maths | Used in `predict.py` to handle the image as a grid of numbers and to pick the winning class. |
+| 🖼️ **Pillow (PIL)** | Image loading & resizing | Opens your `.jpg`/`.png` file and shrinks it to the 32×32 size the model expects. |
 
-### Key Keras building blocks (the layers)
+### 🧱 Key Keras building blocks (the layers)
+
+<div align="center">
+
+![Sequential](https://img.shields.io/badge/Sequential-4B8BBE?style=flat-square)
+![Conv2D](https://img.shields.io/badge/Conv2D-1E88E5?style=flat-square)
+![MaxPooling2D](https://img.shields.io/badge/MaxPooling2D-43A047?style=flat-square)
+![Flatten](https://img.shields.io/badge/Flatten-757575?style=flat-square)
+![Dense](https://img.shields.io/badge/Dense-8E24AA?style=flat-square)
+![Dropout](https://img.shields.io/badge/Dropout-FB8C00?style=flat-square)
+![Augmentation](https://img.shields.io/badge/Random_Flip_Rotation_Zoom-00897B?style=flat-square)
+
+</div>
 
 | Layer / function | Job | Why we need it |
 |------------------|-----|----------------|
-| `Sequential` | Stacks layers top-to-bottom | The simplest way to build a model — data flows straight through, layer by layer. |
-| `Conv2D` | Slides a filter over the image to find patterns | The "eyes" of the model — detects edges, then shapes, then object parts. |
-| `MaxPooling2D` | Shrinks the image, keeping the strongest signal | Makes the model faster and helps it focus on the *big picture*, not exact pixels. |
-| `Flatten` | Turns the 2D grid into a 1D list | Bridges the image part and the decision part of the network. |
-| `Dense` | Fully-connected decision layer | Combines all the clues to decide the final answer (10 outputs = 10 classes). |
-| `Dropout(0.3)` | Randomly ignores 30% of neurons while training | Stops the model from memorising — forces it to learn many backup clues. |
-| `RandomFlip` / `RandomRotation` / `RandomZoom` | Randomly tweak images during training | Free extra variety so the model learns the real object, not one exact photo. |
+| 🟦 `Sequential` | Stacks layers top-to-bottom | The simplest way to build a model — data flows straight through, layer by layer. |
+| 🔵 `Conv2D` | Slides a filter over the image to find patterns | The "eyes" of the model — detects edges, then shapes, then object parts. |
+| 🟢 `MaxPooling2D` | Shrinks the image, keeping the strongest signal | Makes the model faster and helps it focus on the *big picture*, not exact pixels. |
+| ⚪ `Flatten` | Turns the 2D grid into a 1D list | Bridges the image part and the decision part of the network. |
+| 🟣 `Dense` | Fully-connected decision layer | Combines all the clues to decide the final answer (10 outputs = 10 classes). |
+| 🟠 `Dropout(0.3)` | Randomly ignores 30% of neurons while training | Stops the model from memorising — forces it to learn many backup clues. |
+| 🟦 `RandomFlip` / `RandomRotation` / `RandomZoom` | Randomly tweak images during training | Free extra variety so the model learns the real object, not one exact photo. |
 
-### Key functions (the workflow)
+### ⚙️ Key functions (the workflow)
+
+<div align="center">
+
+![load_data](https://img.shields.io/badge/load__data()-6E40C9?style=flat-square)
+![compile](https://img.shields.io/badge/compile()-1A7F37?style=flat-square)
+![fit](https://img.shields.io/badge/fit()-CF222E?style=flat-square)
+![evaluate](https://img.shields.io/badge/evaluate()-BF8700?style=flat-square)
+![save and load](https://img.shields.io/badge/save_and_load()-0969DA?style=flat-square)
+![argmax](https://img.shields.io/badge/argmax()-8250DF?style=flat-square)
+
+</div>
 
 | Function | What it does |
 |----------|--------------|
-| `cifar10.load_data()` | Downloads and loads the 60,000 labelled images. |
-| `model.compile()` | Sets the optimizer, loss, and metric before training. |
-| `model.fit()` | The actual training loop — this is what runs for all the epochs. |
-| `model.evaluate()` | Scores the model on unseen test images (the honest grade). |
-| `model.save()` / `load_model()` | Saves the trained brain to a file and loads it back later. |
-| `np.argmax()` | Picks the class with the highest probability as the final answer. |
+| 🟣 `cifar10.load_data()` | Downloads and loads the 60,000 labelled images. |
+| 🟢 `model.compile()` | Sets the optimizer, loss, and metric before training. |
+| 🔴 `model.fit()` | The actual training loop — this is what runs for all the epochs. |
+| 🟡 `model.evaluate()` | Scores the model on unseen test images (the honest grade). |
+| 🔵 `model.save()` / `load_model()` | Saves the trained brain to a file and loads it back later. |
+| 🟪 `np.argmax()` | Picks the class with the highest probability as the final answer. |
 
-### The math & formulas (the important bits)
+### 🔢 The math & formulas (the important bits)
+
+<div align="center">
+
+![Normalisation](https://img.shields.io/badge/Normalisation-009688?style=flat-square)
+![ReLU](https://img.shields.io/badge/ReLU-FF7043?style=flat-square)
+![Softmax](https://img.shields.io/badge/Softmax-5C6BC0?style=flat-square)
+![Cross-Entropy](https://img.shields.io/badge/Cross--Entropy-EC407A?style=flat-square)
+![Adam](https://img.shields.io/badge/Adam_optimizer-26A69A?style=flat-square)
+
+</div>
 
 | Concept | Formula (simple form) | Why it matters |
 |---------|----------------------|----------------|
-| **Pixel normalisation** | `value / 255.0` | Turns pixels (0–255) into small numbers (0–1) so training is stable and fast. |
-| **ReLU activation** | `f(x) = max(0, x)` | Keeps positive signals, zeroes out negatives — lets the network learn complex, non-straight-line patterns. |
-| **Softmax** (final layer) | turns raw scores into probabilities that **add up to 1** | So the output reads as "87% cat, 8% dog…" instead of meaningless numbers. |
-| **Cross-entropy loss** | penalises confident wrong answers heavily | The "wrongness score" the model tries to shrink — being *confidently wrong* is punished most. |
-| **Adam optimizer** | adaptive gradient descent | The smart method that decides how to nudge all 356,810 weights each step; auto-tunes its own learning rate. |
+| 🟩 **Pixel normalisation** | `value / 255.0` | Turns pixels (0–255) into small numbers (0–1) so training is stable and fast. |
+| 🟧 **ReLU activation** | `f(x) = max(0, x)` | Keeps positive signals, zeroes out negatives — lets the network learn complex, non-straight-line patterns. |
+| 🟦 **Softmax** (final layer) | turns raw scores into probabilities that **add up to 1** | So the output reads as "87% cat, 8% dog…" instead of meaningless numbers. |
+| 🟥 **Cross-entropy loss** | penalises confident wrong answers heavily | The "wrongness score" the model tries to shrink — being *confidently wrong* is punished most. |
+| 🟩 **Adam optimizer** | adaptive gradient descent | The smart method that decides how to nudge all 356,810 weights each step; auto-tunes its own learning rate. |
 
-> In one line: **Pillow + NumPy** prepare the image → **Keras layers** form the brain →
+> 💡 In one line: **Pillow + NumPy** prepare the image → **Keras layers** form the brain →
 > **TensorFlow** does the math → **softmax** gives the probabilities → **argmax** picks the winner.
 
 ---
