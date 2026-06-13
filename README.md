@@ -1,6 +1,6 @@
 # CIFAR-10 CNN Image Classifier
 
-A beginner-friendly TensorFlow / Keras project that trains a small
+A TensorFlow / Keras project that trains a small
 Convolutional Neural Network (CNN) to classify 32x32 color images into
 **10 categories**:
 
