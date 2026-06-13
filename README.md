@@ -135,6 +135,58 @@ python predict.py sample_images/cat.png model/cifar10_model_augmented.keras
 
 ---
 
+## 🧰 Tech stack — what's used and why
+
+Every tool here was picked for a specific reason. Plain-English explanations below.
+
+### Languages & libraries
+
+| Tool | What it is | Why it's used (easy English) |
+|------|-----------|------------------------------|
+| **Python 3** | The programming language | The standard language for AI — simple to read and has every ML library. |
+| **TensorFlow 2** | The deep-learning engine | Does all the heavy training math for us. We just describe the model; it runs the millions of calculations. |
+| **Keras** (inside TensorFlow) | A friendly layer on top of TensorFlow | Lets us build the network by stacking layers like LEGO, instead of writing raw math. |
+| **NumPy** | Fast number/array maths | Used in `predict.py` to handle the image as a grid of numbers and to pick the winning class. |
+| **Pillow (PIL)** | Image loading & resizing | Opens your `.jpg`/`.png` file and shrinks it to the 32×32 size the model expects. |
+
+### Key Keras building blocks (the layers)
+
+| Layer / function | Job | Why we need it |
+|------------------|-----|----------------|
+| `Sequential` | Stacks layers top-to-bottom | The simplest way to build a model — data flows straight through, layer by layer. |
+| `Conv2D` | Slides a filter over the image to find patterns | The "eyes" of the model — detects edges, then shapes, then object parts. |
+| `MaxPooling2D` | Shrinks the image, keeping the strongest signal | Makes the model faster and helps it focus on the *big picture*, not exact pixels. |
+| `Flatten` | Turns the 2D grid into a 1D list | Bridges the image part and the decision part of the network. |
+| `Dense` | Fully-connected decision layer | Combines all the clues to decide the final answer (10 outputs = 10 classes). |
+| `Dropout(0.3)` | Randomly ignores 30% of neurons while training | Stops the model from memorising — forces it to learn many backup clues. |
+| `RandomFlip` / `RandomRotation` / `RandomZoom` | Randomly tweak images during training | Free extra variety so the model learns the real object, not one exact photo. |
+
+### Key functions (the workflow)
+
+| Function | What it does |
+|----------|--------------|
+| `cifar10.load_data()` | Downloads and loads the 60,000 labelled images. |
+| `model.compile()` | Sets the optimizer, loss, and metric before training. |
+| `model.fit()` | The actual training loop — this is what runs for all the epochs. |
+| `model.evaluate()` | Scores the model on unseen test images (the honest grade). |
+| `model.save()` / `load_model()` | Saves the trained brain to a file and loads it back later. |
+| `np.argmax()` | Picks the class with the highest probability as the final answer. |
+
+### The math & formulas (the important bits)
+
+| Concept | Formula (simple form) | Why it matters |
+|---------|----------------------|----------------|
+| **Pixel normalisation** | `value / 255.0` | Turns pixels (0–255) into small numbers (0–1) so training is stable and fast. |
+| **ReLU activation** | `f(x) = max(0, x)` | Keeps positive signals, zeroes out negatives — lets the network learn complex, non-straight-line patterns. |
+| **Softmax** (final layer) | turns raw scores into probabilities that **add up to 1** | So the output reads as "87% cat, 8% dog…" instead of meaningless numbers. |
+| **Cross-entropy loss** | penalises confident wrong answers heavily | The "wrongness score" the model tries to shrink — being *confidently wrong* is punished most. |
+| **Adam optimizer** | adaptive gradient descent | The smart method that decides how to nudge all 356,810 weights each step; auto-tunes its own learning rate. |
+
+> In one line: **Pillow + NumPy** prepare the image → **Keras layers** form the brain →
+> **TensorFlow** does the math → **softmax** gives the probabilities → **argmax** picks the winner.
+
+---
+
 ## 📁 Project structure
 
 ```
