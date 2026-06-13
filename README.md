@@ -73,27 +73,30 @@ Want to train from scratch instead? → `python train.py`
 
 ## 🧠 How it works
 
-The model reads an image as a stack of numbers and passes it through three
-"detector" blocks. Each block finds richer patterns while shrinking the image,
-so deeper layers see the *big picture* rather than single pixels.
+Think of the model as a photo-sorting machine with **three detectives**. The
+photo passes through each one: the first spots tiny details (edges), the next
+builds those into shapes, the last into whole parts (ears, wheels). After each
+detective the picture is shrunk a little, so the next one sees the *big picture*
+instead of single dots. Finally the machine weighs up all the clues and drops
+the photo into one of 10 buckets.
 
 ```mermaid
 flowchart TD
-    IN(["🖼️ Input image · 32×32×3"]):::io
-    NORM["⚙️ Normalise · pixel ÷ 255"]:::prep
+    IN(["🖼️ A tiny photo goes in"]):::io
+    NORM["🔢 Turn the picture into numbers the computer can read"]:::prep
 
-    C1["🔍 Conv2D 32 + ReLU · find edges and colours"]:::conv
-    P1["🔻 MaxPool · 32→16"]:::pool
-    C2["🔍 Conv2D 64 + ReLU · find shapes"]:::conv
-    P2["🔻 MaxPool · 16→8"]:::pool
-    C3["🔍 Conv2D 128 + ReLU · find parts"]:::conv
-    P3["🔻 MaxPool · 8→4"]:::pool
+    C1["🔍 Detective 1 — spots edges and colours"]:::conv
+    P1["🔻 Shrink the picture to see the bigger picture"]:::pool
+    C2["🔍 Detective 2 — spots simple shapes"]:::conv
+    P2["🔻 Shrink it again"]:::pool
+    C3["🔍 Detective 3 — spots parts like ears, wheels, wings"]:::conv
+    P3["🔻 Shrink it once more"]:::pool
 
-    FL["📃 Flatten · 4×4×128 → 2048"]:::head
-    D1["🧠 Dense 128 · image fingerprint"]:::head
-    DR["🎲 Dropout 0.3 · stop memorising"]:::drop
-    SM["🎯 Dense 10 + Softmax · class probabilities"]:::io
-    RES(["🐱 cat · 87%"]):::result
+    FL["📋 Gather every clue into one list"]:::head
+    D1["🧠 Weigh up all the clues"]:::head
+    DR["🎲 Hide some clues so it can't just memorise"]:::drop
+    SM["🪣 Sort the photo into 1 of 10 buckets"]:::io
+    RES(["🐱 It's a cat! — 87% sure"]):::result
 
     IN --> NORM --> C1 --> P1 --> C2 --> P2 --> C3 --> P3 --> FL --> D1 --> DR --> SM --> RES
 
@@ -105,6 +108,10 @@ flowchart TD
     classDef drop fill:#FB8C00,stroke:#EF6C00,color:#ffffff
     classDef result fill:#E53935,stroke:#B71C1C,color:#ffffff
 ```
+
+> **For coders:** in the actual code these plain-English steps are —
+> 🔍 detective = `Conv2D` · 🔻 shrink = `MaxPooling2D` · 📋 gather = `Flatten` ·
+> 🧠 weigh up = `Dense` · 🎲 hide clues = `Dropout` · 🪣 sort into buckets = `Softmax`.
 
 Pixels are normalised to the `0–1` range before training for stable learning.
 
