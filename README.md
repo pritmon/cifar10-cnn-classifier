@@ -77,16 +77,33 @@ The model reads an image as a stack of numbers and passes it through three
 "detector" blocks. Each block finds richer patterns while shrinking the image,
 so deeper layers see the *big picture* rather than single pixels.
 
-```
-Input 32×32×3
-  │
-  ├─ Conv2D(32)  → MaxPool   ·  finds edges & colours      ·  32×32 → 16×16
-  ├─ Conv2D(64)  → MaxPool   ·  finds shapes               ·  16×16 → 8×8
-  ├─ Conv2D(128) → MaxPool   ·  finds parts (ears, wheels) ·  8×8 → 4×4
-  │
-  ├─ Flatten → Dense(128)    ·  the learned "fingerprint" of the image
-  ├─ Dropout(0.3)            ·  prevents memorising (regularisation)
-  └─ Dense(10, softmax)      ·  probability for each of the 10 classes
+```mermaid
+flowchart TD
+    IN(["🖼️ Input image · 32×32×3"]):::io
+    NORM["⚙️ Normalise · pixel ÷ 255"]:::prep
+
+    C1["🔍 Conv2D 32 + ReLU · find edges and colours"]:::conv
+    P1["🔻 MaxPool · 32→16"]:::pool
+    C2["🔍 Conv2D 64 + ReLU · find shapes"]:::conv
+    P2["🔻 MaxPool · 16→8"]:::pool
+    C3["🔍 Conv2D 128 + ReLU · find parts"]:::conv
+    P3["🔻 MaxPool · 8→4"]:::pool
+
+    FL["📃 Flatten · 4×4×128 → 2048"]:::head
+    D1["🧠 Dense 128 · image fingerprint"]:::head
+    DR["🎲 Dropout 0.3 · stop memorising"]:::drop
+    SM["🎯 Dense 10 + Softmax · class probabilities"]:::io
+    RES(["🐱 cat · 87%"]):::result
+
+    IN --> NORM --> C1 --> P1 --> C2 --> P2 --> C3 --> P3 --> FL --> D1 --> DR --> SM --> RES
+
+    classDef io fill:#1E88E5,stroke:#0D47A1,color:#ffffff
+    classDef prep fill:#00897B,stroke:#00695C,color:#ffffff
+    classDef conv fill:#43A047,stroke:#2E7D32,color:#ffffff
+    classDef pool fill:#7CB342,stroke:#558B2F,color:#ffffff
+    classDef head fill:#8E24AA,stroke:#6A1B9A,color:#ffffff
+    classDef drop fill:#FB8C00,stroke:#EF6C00,color:#ffffff
+    classDef result fill:#E53935,stroke:#B71C1C,color:#ffffff
 ```
 
 Pixels are normalised to the `0–1` range before training for stable learning.
