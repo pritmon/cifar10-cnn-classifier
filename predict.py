@@ -9,11 +9,12 @@ Run it with:
 It prints the predicted class name and how confident the model is (as a %).
 """
 
-import sys
-import os
-import numpy as np
-import tensorflow as tf
-from tensorflow.keras.preprocessing import image as keras_image
+# --- Imports: the tools we need ---
+import sys                                                  # to read the arguments you type on the command line
+import os                                                   # to check that files exist / build file paths
+import numpy as np                                          # fast maths on lists of numbers (arrays)
+import tensorflow as tf                                     # the deep-learning engine (loads & runs the model)
+from tensorflow.keras.preprocessing import image as keras_image  # helpers to open and resize an image file
 
 # -----------------------------------------------------------------------------
 # 1. THE CLASS NAMES
@@ -29,6 +30,8 @@ CLASS_NAMES = [
 DEFAULT_MODEL_PATH = os.path.join("model", "cifar10_model.keras")
 
 
+# All the work happens inside this main() function. We call it at the very
+# bottom of the file. Keeping it in a function keeps the code tidy.
 def main():
     # -------------------------------------------------------------------------
     # 2. READ THE IMAGE PATH FROM THE COMMAND LINE

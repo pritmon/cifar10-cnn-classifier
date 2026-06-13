@@ -12,9 +12,10 @@ After training finishes, the model is saved to model/cifar10_model.keras
 so that predict.py can load it later.
 """
 
-import os
-import tensorflow as tf
-from tensorflow.keras import layers, models
+# --- Imports: the tools we need ---
+import os                                      # to create folders / build file paths
+import tensorflow as tf                        # the deep-learning engine (does the heavy maths)
+from tensorflow.keras import layers, models    # ready-made building blocks for the network
 
 # -----------------------------------------------------------------------------
 # 1. LOAD THE DATA

@@ -17,9 +17,10 @@ It saves to model/cifar10_model_augmented.keras so your original
 model/cifar10_model.keras is left untouched.
 """
 
-import os
-import tensorflow as tf
-from tensorflow.keras import layers, models
+# --- Imports: the tools we need ---
+import os                                      # to create folders / build file paths
+import tensorflow as tf                        # the deep-learning engine (does the heavy maths)
+from tensorflow.keras import layers, models    # ready-made building blocks for the network
 
 # -----------------------------------------------------------------------------
 # 1. LOAD THE DATA (same as before)
