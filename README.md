@@ -82,21 +82,21 @@ the photo into one of 10 buckets.
 
 ```mermaid
 flowchart TD
-    IN(["🖼️ A tiny photo goes in"]):::io
-    NORM["🔢 Turn the picture into numbers the computer can read"]:::prep
+    IN(["🖼️ A tiny photo goes in<br/><i>32×32 pixels · 3 colour channels</i>"]):::io
+    NORM["🔢 Turn the picture into numbers the computer can read<br/><i>each pixel ÷ 255 → range 0–1</i>"]:::prep
 
-    C1["🔍 Detective 1 — spots edges and colours"]:::conv
-    P1["🔻 Shrink the picture to see the bigger picture"]:::pool
-    C2["🔍 Detective 2 — spots simple shapes"]:::conv
-    P2["🔻 Shrink it again"]:::pool
-    C3["🔍 Detective 3 — spots parts like ears, wheels, wings"]:::conv
-    P3["🔻 Shrink it once more"]:::pool
+    C1["🔍 Detective 1 — spots edges and colours<br/><i>Conv2D · 32 filters + ReLU</i>"]:::conv
+    P1["🔻 Shrink to see the bigger picture<br/><i>MaxPool · 32×32 → 16×16</i>"]:::pool
+    C2["🔍 Detective 2 — spots simple shapes<br/><i>Conv2D · 64 filters + ReLU</i>"]:::conv
+    P2["🔻 Shrink it again<br/><i>MaxPool · 16×16 → 8×8</i>"]:::pool
+    C3["🔍 Detective 3 — spots parts like ears, wheels, wings<br/><i>Conv2D · 128 filters + ReLU</i>"]:::conv
+    P3["🔻 Shrink it once more<br/><i>MaxPool · 8×8 → 4×4</i>"]:::pool
 
-    FL["📋 Gather every clue into one list"]:::head
-    D1["🧠 Weigh up all the clues"]:::head
-    DR["🎲 Hide some clues so it can't just memorise"]:::drop
-    SM["🪣 Sort the photo into 1 of 10 buckets"]:::io
-    RES(["🐱 It's a cat! — 87% sure"]):::result
+    FL["📋 Gather every clue into one list<br/><i>Flatten · 4×4×128 → 2048 numbers</i>"]:::head
+    D1["🧠 Weigh up all the clues<br/><i>Dense · 128 neurons + ReLU</i>"]:::head
+    DR["🎲 Hide some clues so it can't just memorise<br/><i>Dropout · 30%</i>"]:::drop
+    SM["🪣 Sort the photo into 1 of 10 buckets<br/><i>Dense 10 + Softmax → probabilities</i>"]:::io
+    RES(["🐱 It's a cat! — 87% sure<br/><i>highest probability wins</i>"]):::result
 
     IN --> NORM --> C1 --> P1 --> C2 --> P2 --> C3 --> P3 --> FL --> D1 --> DR --> SM --> RES
 
@@ -109,11 +109,9 @@ flowchart TD
     classDef result fill:#E53935,stroke:#B71C1C,color:#ffffff
 ```
 
-> **For coders:** in the actual code these plain-English steps are —
-> 🔍 detective = `Conv2D` · 🔻 shrink = `MaxPooling2D` · 📋 gather = `Flatten` ·
-> 🧠 weigh up = `Dense` · 🎲 hide clues = `Dropout` · 🪣 sort into buckets = `Softmax`.
-
-Pixels are normalised to the `0–1` range before training for stable learning.
+Each box reads top-to-bottom: the **plain-English step** first, the **real layer
+name and numbers** in italics underneath — so a curious reader and a developer
+both get what they need from the same picture.
 
 ---
 
