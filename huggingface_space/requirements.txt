@@ -1,0 +1,8 @@
+# Dependencies for the Hugging Face Space.
+# These exact pins match a tested, working combination.
+gradio==4.44.1
+huggingface_hub<1.0
+pydantic<2.10
+tensorflow-cpu
+pillow
+numpy
