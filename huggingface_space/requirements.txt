@@ -6,3 +6,6 @@ pydantic<2.10
 tensorflow-cpu
 pillow
 numpy
+# Python 3.13 removed the built-in 'audioop' module that Gradio's audio
+# helper (pydub) imports. This backport restores it (only on Python 3.13+).
+audioop-lts; python_version >= "3.13"
