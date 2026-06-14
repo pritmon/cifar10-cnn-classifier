@@ -14,6 +14,7 @@ concepts most commonly discussed across the AI/ML field today.
 5. [![5](https://img.shields.io/badge/5-Deployment%20%26%20MLOps-8E24AA?style=flat-square)](#-5--deployment--mlops)
 6. [![6](https://img.shields.io/badge/6-Tools%20%26%20Trends-00897B?style=flat-square)](#-6--tools--trends)
 7. [![7](https://img.shields.io/badge/7-How%20It%20All%20Runs-B8860B?style=flat-square)](#-7--how-it-all-runs-execution-flow)
+8. [![8](https://img.shields.io/badge/8-How%20Learning%20Happens-3949AB?style=flat-square)](#-8--how-learning-happens)
 
 ---
 
@@ -245,6 +246,48 @@ Without running training first, prediction has no brain to load.
 5. python app.py                     →  run the web app locally
 6. deploy to Hugging Face            →  put the app online for everyone
 ```
+
+---
+
+## 🔷 8 — How Learning Happens
+
+![Section](https://img.shields.io/badge/Category-How%20Learning%20Happens-3949AB?style=for-the-badge)
+
+The heart of training: how a model goes from random guesses to correct answers,
+one tiny correction at a time.
+
+![Q](https://img.shields.io/badge/Q-1E88E5?style=flat-square) **Q36. How does a model actually learn?**
+
+![A](https://img.shields.io/badge/A-2E7D32?style=flat-square) By repeating a practice loop thousands of times: it **guesses**, **checks** the correct answer, sees how wrong it was, then **nudges its internal numbers** (the "knobs", a.k.a. weights) to be a little less wrong — and repeats. It starts with random numbers and slowly tunes them until its guesses are accurate. Nobody hand-writes the rules; the model tunes itself from its mistakes.
+
+![Q](https://img.shields.io/badge/Q-1E88E5?style=flat-square) **Q37. What happens right after a wrong guess?**
+
+![A](https://img.shields.io/badge/A-2E7D32?style=flat-square) It works out **which knobs caused the mistake** and turns them a tiny bit toward the right answer — so next time "cat" goes up and "dog" goes down. The bigger the mistake, the bigger the turn; the smaller the mistake, the smaller the turn.
+
+![Q](https://img.shields.io/badge/Q-1E88E5?style=flat-square) **Q38. What is backpropagation, in plain words?**
+
+![A](https://img.shields.io/badge/A-2E7D32?style=flat-square) It's the method of tracing the mistake **backwards** through the layers to find which knob to turn and in which direction. Like tasting a dish that's too salty and figuring out *which step* added the salt, so you can fix that step. It hands every knob a simple "turn up" or "turn down" instruction.
+
+![Q](https://img.shields.io/badge/Q-1E88E5?style=flat-square) **Q39. What decides HOW MUCH to adjust each time?**
+
+![A](https://img.shields.io/badge/A-2E7D32?style=flat-square) The **optimizer** (here, Adam) together with a **learning rate** (default `0.001`). The rough formula per knob is `new = old − learning_rate × gradient`: the gradient says *which way + how wrong*, the learning rate says *how big a step*. It keeps each turn from being too wild — like adjusting a shower tap carefully so you don't overshoot from freezing to boiling.
+
+![Q](https://img.shields.io/badge/Q-1E88E5?style=flat-square) **Q40. What's the difference between `compile()` and `fit()`?**
+
+![A](https://img.shields.io/badge/A-2E7D32?style=flat-square) **`compile()`** sets the rules — how to measure mistakes (the loss) and how to fix them (the optimizer). **`fit()`** runs the actual practice loop over the data for a set number of epochs. In short: first you set the plan, then you press go.
+
+![Q](https://img.shields.io/badge/Q-1E88E5?style=flat-square) **Q41. How does the model go from a wrong guess (dog) to the right one (cat)?**
+
+![A](https://img.shields.io/badge/A-2E7D32?style=flat-square) Not by being *told* the answer — by nudging its knobs toward "cat" a tiny bit every time it's wrong, thousands of times, until "cat" finally wins. Its journey looks like this:
+
+```text
+clueless    →  "dog 60%"   ❌  (random, confident, wrong)
+doubtful    →  "dog 45% / cat 40%"   😐  (starting to notice ears, whiskers)
+first win   →  "cat 55%"   ✅  (cat finally beats dog)
+confident   →  "cat 87%"   🏆  (sharp and correct)
+```
+
+In this very project, the cat score really did climb **3.9% → 34% → 68.7%** as training and augmentation improved — the same "clueless → doubtful → correct" story, in real numbers.
 
 ---
 
