@@ -1,11 +1,9 @@
 # Dependencies for the Hugging Face Space.
-# These exact pins match a tested, working combination.
-gradio==4.44.1
-huggingface_hub<1.0
-pydantic<2.10
+# Gradio itself is provided by the Space SDK (see sdk_version in README.md),
+# so we only list what the model needs here.
 tensorflow-cpu
 pillow
 numpy
-# Python 3.13 removed the built-in 'audioop' module that Gradio's audio
-# helper (pydub) imports. This backport restores it (only on Python 3.13+).
+# Python 3.13 removed the built-in 'audioop' module that some Gradio audio
+# helpers import. This backport restores it (only installed on Python 3.13+).
 audioop-lts; python_version >= "3.13"

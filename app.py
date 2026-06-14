@@ -61,6 +61,7 @@ demo = gr.Interface(
         "sample_images/airplane.png",
         "sample_images/frog.png",
     ],
+    cache_examples=False,   # compute example results on click, not at startup
 )
 
 # Start the local web server when you run `python app.py`.

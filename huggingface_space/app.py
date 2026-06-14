@@ -44,6 +44,7 @@ demo = gr.Interface(
         "Tip: it was trained on tiny 32×32 images, so simple, centred subjects work best."
     ),
     examples=["cat.png", "dog.png", "ship.png", "airplane.png", "frog.png"],
+    cache_examples=False,   # compute example results on click, not at startup
 )
 
 if __name__ == "__main__":
