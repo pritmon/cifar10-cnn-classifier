@@ -9,6 +9,8 @@
 [![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-FF6F00?logo=tensorflow&logoColor=white)](https://www.tensorflow.org/)
 [![Keras](https://img.shields.io/badge/Keras-Sequential%20API-D00000?logo=keras&logoColor=white)](https://keras.io/)
+[![Gradio](https://img.shields.io/badge/Gradio-App-F97316?logo=gradio&logoColor=white)](https://www.gradio.app/)
+[![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Deployed-FFD21E)](https://huggingface.co/spaces/prithugging/cifar10-cnn-classifier)
 [![Accuracy](https://img.shields.io/badge/Test%20Accuracy-75.4%25-success)](#-results)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
