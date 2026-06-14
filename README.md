@@ -191,7 +191,7 @@ Every tool here was picked for a specific reason. Plain-English explanations bel
 | 🤗 **Hugging Face Spaces** | Free hosting for the live app | Runs the web app online 24/7 and gives a public link anyone can use. |
 | 🖼️ **Pillow (PIL)** | Image loading & resizing | Opens your `.jpg`/`.png` file and shrinks it to the 32×32 size the model expects. |
 
-### 🧱 Key Keras building blocks (the layers)
+### 🧱 Key Keras building blocks
 
 <div align="center">
 
@@ -205,17 +205,25 @@ Every tool here was picked for a specific reason. Plain-English explanations bel
 
 </div>
 
-| # | Layer | Settings (used here) | What it does (easy English) |
-|:-:|-------|----------------------|------------------------------|
-| 1 | 🟦 `Sequential` | — (the container) | The conveyor belt that holds every layer and passes the data through them top → bottom, in order. |
-| 2 | 🔵 `Conv2D` | `32 → 64 → 128` filters, `3×3` window | 🔍 The model's **eyes** — slides small filters over the image to spot patterns: edges first, then shapes, then whole parts. More filters deeper = more complex patterns. |
-| 3 | 🟢 `MaxPooling2D` | `2×2` | 🔻 **Shrinks** the picture (32→16→8→4), keeping only the strongest signal in each patch, so deeper layers see the *big picture*, not single pixels. |
-| 4 | ⚪ `Flatten` | — | 📋 **Lines up** the final 4×4×128 grid into one long list of 2048 numbers — the bridge from "looking" to "deciding". |
-| 5 | 🟣 `Dense` | `128`, then `10` | 🧠 The **thinking** layer — combines all the clues. The first (128) makes a "fingerprint"; the last (10) gives one score per class. |
-| 6 | 🟠 `Dropout` | `0.3` | 🎲 Randomly **switches off 30%** of neurons while training, so the model can't lean on one clue — it stops memorising (a "no cheating" rule). |
-| 7 | 🟩 `RandomFlip` / `RandomRotation` / `RandomZoom` | flip · ±10% rotate · ±10% zoom | 🌀 **Augmentation** — randomly tweaks each image during training so the model learns the *real object*, not one exact photo. |
+The badges above are the **7 different *types*** of block. They're reused to build
+an **11-layer stack** — `Conv2D` and `MaxPooling2D` each appear **3 times**. Here is
+the full stack, top to bottom:
 
-> **Reading the model in order:** the actual stack runs `Conv2D→MaxPool` three times (steps 2–3, repeated), then `Flatten → Dense → Dropout → Dense(10)`. The augmentation layers (7) sit at the very front and only act during training — see the flowchart in [How it works](#-how-it-works) for the exact sequence.
+| # | Layer | Settings | What it does (easy English) |
+|:-:|-------|----------|------------------------------|
+| 1 | `Input` | `32×32×3` | Sets the photo size — 32×32 pixels, 3 colours (R, G, B). |
+| 2 | 🔵 `Conv2D` | `32` filters, `3×3` | 🔍 Finds simple patterns — edges and colours. |
+| 3 | 🟢 `MaxPooling2D` | `2×2` | 🔻 Shrinks the picture (32→16), keeping the strongest signals. |
+| 4 | 🔵 `Conv2D` | `64` filters, `3×3` | 🔍 Finds shapes built from those edges. |
+| 5 | 🟢 `MaxPooling2D` | `2×2` | 🔻 Shrinks again (16→8). |
+| 6 | 🔵 `Conv2D` | `128` filters, `3×3` | 🔍 Finds whole parts — ears, wheels, wings. |
+| 7 | 🟢 `MaxPooling2D` | `2×2` | 🔻 Shrinks again (8→4). |
+| 8 | ⚪ `Flatten` | — | 📋 Lines up the 4×4×128 grid into one list of 2048 numbers. |
+| 9 | 🟣 `Dense` | `128`, ReLU | 🧠 Combines all the clues into the image's "fingerprint". |
+| 10 | 🟠 `Dropout` | `0.3` | 🎲 Randomly switches off 30% of neurons while training (stops memorising). |
+| 11 | 🟣 `Dense` | `10`, Softmax | 🪣 Final vote — a probability for each of the 10 classes. |
+
+> **Where's augmentation?** The augmented model (`train_augmented.py`) adds 3 more layers — `RandomFlip` / `RandomRotation` / `RandomZoom` (the 7th badge) — at the **very front**. They only act during training. See the [flowchart](#-how-it-works) for the visual sequence.
 
 ### ⚙️ Key functions (the workflow)
 
