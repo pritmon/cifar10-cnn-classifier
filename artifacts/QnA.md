@@ -13,6 +13,7 @@ concepts most commonly discussed across the AI/ML field today.
 4. [![4](https://img.shields.io/badge/4-Making%20Models%20Better-E53935?style=flat-square)](#-4--making-models-better)
 5. [![5](https://img.shields.io/badge/5-Deployment%20%26%20MLOps-8E24AA?style=flat-square)](#-5--deployment--mlops)
 6. [![6](https://img.shields.io/badge/6-Tools%20%26%20Trends-00897B?style=flat-square)](#-6--tools--trends)
+7. [![7](https://img.shields.io/badge/7-How%20It%20All%20Runs-B8860B?style=flat-square)](#-7--how-it-all-runs-execution-flow)
 
 ---
 
@@ -169,6 +170,81 @@ concepts most commonly discussed across the AI/ML field today.
 ![Q](https://img.shields.io/badge/Q-1E88E5?style=flat-square) **Q30. What does the full lifecycle of an AI project look like?**
 
 ![A](https://img.shields.io/badge/A-2E7D32?style=flat-square) A typical flow: **collect data → train a model → evaluate it → improve it → deploy it online → monitor and update it.** Knowing this whole loop (not just training) is what real-world AI work is about.
+
+---
+
+## 🟫 7 — How It All Runs (Execution Flow)
+
+![Section](https://img.shields.io/badge/Category-How%20It%20All%20Runs-B8860B?style=for-the-badge)
+
+The project is really **two separate runs**: **training** (slow, done once) and
+**predicting** (fast, done many times). Below is exactly what happens, in order.
+
+![Q](https://img.shields.io/badge/Q-1E88E5?style=flat-square) **Q31. Step by step, what happens when you train the model? (`python train.py`)**
+
+![A](https://img.shields.io/badge/A-2E7D32?style=flat-square) Training runs top to bottom and finishes by saving the model to a file:
+
+```text
+1. Python starts train.py
+2. import tensorflow / keras   →  load the engine into memory
+3. cifar10.load_data()         →  load the 60,000 photos
+4. pixels / 255.0              →  normalise to the 0–1 range
+5. models.Sequential([...])    →  build the empty model (just the wiring)
+6. model.compile(...)          →  set optimizer + loss (ready to learn)
+7. model.fit(..., epochs=15)   →  ★ TRAIN: billions of calculations
+8. model.evaluate(test)        →  score on unseen data (honest grade)
+9. model.save("...keras")      →  write the trained brain to a file
+10. Python exits               →  done; the .keras file now exists
+```
+
+This run is slow (minutes) and you do it **once** — or again only when you re-train.
+
+![Q](https://img.shields.io/badge/Q-1E88E5?style=flat-square) **Q32. What happens when you make a prediction? (`python predict.py cat.png`)**
+
+![A](https://img.shields.io/badge/A-2E7D32?style=flat-square) A separate, fast run that loads the saved brain and uses it:
+
+```text
+1. Python starts predict.py
+2. import tensorflow / keras   →  load the engine
+3. read the image path typed   →  "cat.png"
+4. load_model("...keras")      →  load the trained brain from the file
+5. open + resize to 32×32      →  match the size the model expects
+6. pixels / 255.0              →  normalise (same as training!)
+7. model.predict(image)        →  run the image through the model
+8. argmax(...)                 →  pick the highest-scoring class
+9. print("cat 87%")            →  show the answer
+10. Python exits
+```
+
+This run is fast (seconds) and you do it **every time** you want an answer.
+
+![Q](https://img.shields.io/badge/Q-1E88E5?style=flat-square) **Q33. How is the web app (`app.py`) different?**
+
+![A](https://img.shields.io/badge/A-2E7D32?style=flat-square) Same steps as predicting, but it loads the model **once at startup**, then **stays running** and repeats the predict steps for every photo a visitor uploads — so it never exits and many people can use it at the same time.
+
+![Q](https://img.shields.io/badge/Q-1E88E5?style=flat-square) **Q34. How do the training run and the prediction run connect?**
+
+![A](https://img.shields.io/badge/A-2E7D32?style=flat-square) They don't call each other — they connect through the **saved model file**. Training *writes* it; predicting *reads* it:
+
+```text
+train.py  ──writes──▶  model/cifar10_model.keras  ──read by──▶  predict.py
+  (once)                     (the handoff)                        app.py
+```
+
+Without running training first, prediction has no brain to load.
+
+![Q](https://img.shields.io/badge/Q-1E88E5?style=flat-square) **Q35. What is the overall order to run the whole project?**
+
+![A](https://img.shields.io/badge/A-2E7D32?style=flat-square) From a fresh start all the way to a live app:
+
+```text
+1. pip install -r requirements.txt   →  set up the tools (once)
+2. python train.py                   →  train + save the model
+3. python make_sample_images.py      →  grab a few test images
+4. python predict.py <image>         →  try it in the terminal
+5. python app.py                     →  run the web app locally
+6. deploy to Hugging Face            →  put the app online for everyone
+```
 
 ---
 
