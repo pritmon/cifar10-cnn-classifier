@@ -174,6 +174,8 @@ Every tool here was picked for a specific reason. Plain-English explanations bel
 ![Keras](https://img.shields.io/badge/Keras-D00000?style=for-the-badge&logo=keras&logoColor=white)
 ![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white)
 ![Pillow](https://img.shields.io/badge/Pillow-528DD7?style=for-the-badge&logo=python&logoColor=white)
+![Gradio](https://img.shields.io/badge/Gradio-F97316?style=for-the-badge&logo=gradio&logoColor=white)
+![Hugging Face](https://img.shields.io/badge/Hugging_Face-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black)
 
 </div>
 
@@ -183,6 +185,8 @@ Every tool here was picked for a specific reason. Plain-English explanations bel
 | 🔶 **TensorFlow 2** | The deep-learning engine | Does all the heavy training math for us. We just describe the model; it runs the millions of calculations. |
 | 🔴 **Keras** (inside TensorFlow) | A friendly layer on top of TensorFlow | Lets us build the network by stacking layers like LEGO, instead of writing raw math. |
 | 🔵 **NumPy** | Fast number/array maths | Used in `predict.py` to handle the image as a grid of numbers and to pick the winning class. |
+| 🟠 **Gradio** | Turns the model into a web app | A few lines of Python give a drag-and-drop web page — no HTML/CSS/JS needed. |
+| 🤗 **Hugging Face Spaces** | Free hosting for the live app | Runs the web app online 24/7 and gives a public link anyone can use. |
 | 🖼️ **Pillow (PIL)** | Image loading & resizing | Opens your `.jpg`/`.png` file and shrinks it to the 32×32 size the model expects. |
 
 ### 🧱 Key Keras building blocks (the layers)
