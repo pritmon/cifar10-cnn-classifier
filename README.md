@@ -4,11 +4,15 @@
 
 **Teaching a machine to see — a clean, fully-documented Convolutional Neural Network that sorts tiny photos into 10 categories.**
 
+[![🤗 Live Demo](https://img.shields.io/badge/🤗_Live_Demo-Try_it_now-FFD21E?style=for-the-badge)](https://huggingface.co/spaces/prithugging/cifar10-cnn-classifier)
+
 [![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-FF6F00?logo=tensorflow&logoColor=white)](https://www.tensorflow.org/)
 [![Keras](https://img.shields.io/badge/Keras-Sequential%20API-D00000?logo=keras&logoColor=white)](https://keras.io/)
 [![Accuracy](https://img.shields.io/badge/Test%20Accuracy-75.4%25-success)](#-results)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
+**[👉 Try the live app](https://huggingface.co/spaces/prithugging/cifar10-cnn-classifier)** — drag in a photo and watch it predict.
 
 </div>
 
@@ -273,7 +277,7 @@ cifar10-cnn-classifier/
 
 - [ ] Add `BatchNormalization` and a 4th conv block to push past 80%
 - [ ] Fine-tune a pre-trained backbone to handle full-resolution, real-world photos
-- [ ] Ship a drag-and-drop web demo
+- [x] Ship a drag-and-drop web demo → **[live on Hugging Face Spaces](https://huggingface.co/spaces/prithugging/cifar10-cnn-classifier)** 🎉
 
 ---
 
