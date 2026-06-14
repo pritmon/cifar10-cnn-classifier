@@ -264,25 +264,25 @@ Every tool here was picked for a specific reason. Plain-English explanations bel
 
 ## 📁 Project structure
 
-```
+<pre>
 cifar10-cnn-classifier/
-├── train.py                 # baseline trainer (build → train → save)
-├── train_augmented.py       # augmented trainer (higher accuracy)
-├── predict.py               # load a model, classify any image (CLI)
-├── app.py                   # Gradio web app (drag-and-drop demo)
-├── make_sample_images.py    # save a few real CIFAR-10 images to test on
-├── model/                   # trained models (.keras)
-│   ├── cifar10_model.keras            # baseline
-│   └── cifar10_model_augmented.keras  # augmented (deployed)
-├── sample_images/           # ready-to-use test images
-├── huggingface_space/       # self-contained bundle deployed to HF Spaces
-│   ├── app.py               # flat-path version for the Space
-│   ├── requirements.txt     # Space pins (Gradio 5)
-│   └── README.md            # Space config + the model & example images
-├── requirements.txt
-├── LICENSE
-└── README.md
-```
+├── <a href="train.py">train.py</a>                 # baseline trainer (build → train → save)
+├── <a href="train_augmented.py">train_augmented.py</a>       # augmented trainer (higher accuracy)
+├── <a href="predict.py">predict.py</a>               # load a model, classify any image (CLI)
+├── <a href="app.py">app.py</a>                   # Gradio web app (drag-and-drop demo)
+├── <a href="make_sample_images.py">make_sample_images.py</a>    # save a few real CIFAR-10 images to test on
+├── <a href="model">model/</a>                   # trained models (.keras)
+│   ├── <a href="model/cifar10_model.keras">cifar10_model.keras</a>            # baseline
+│   └── <a href="model/cifar10_model_augmented.keras">cifar10_model_augmented.keras</a>  # augmented (deployed)
+├── <a href="sample_images">sample_images/</a>           # ready-to-use test images
+├── <a href="huggingface_space">huggingface_space/</a>       # self-contained bundle deployed to HF Spaces
+│   ├── <a href="huggingface_space/app.py">app.py</a>               # flat-path version for the Space
+│   ├── <a href="huggingface_space/requirements.txt">requirements.txt</a>     # Space pins (Gradio 5)
+│   └── <a href="huggingface_space/README.md">README.md</a>            # Space config + the model &amp; example images
+├── <a href="requirements.txt">requirements.txt</a>
+├── <a href="LICENSE">LICENSE</a>
+└── <a href="README.md">README.md</a>
+</pre>
 
 > The `huggingface_space/` folder is a **self-contained deploy bundle** — it
 > intentionally carries its own copy of the model and example images so it can
