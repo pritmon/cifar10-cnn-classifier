@@ -119,6 +119,28 @@ Each box reads top-to-bottom: the **plain-English step** first, the **real layer
 name and numbers** in italics underneath — so a curious reader and a developer
 both get what they need from the same picture.
 
+### Layer reference
+
+The model is a stack of 11 layers, run in order from top to bottom:
+
+| # | Layer | Setting | What it does (easy English) |
+|:-:|-------|---------|------------------------------|
+| 1 | `Input` | `32×32×3` | Sets the photo size — 32×32 pixels, 3 colours (red, green, blue). |
+| 2 | `Conv2D` | `32` filters, `3×3` | 🔍 Finds simple patterns — edges and colours. |
+| 3 | `MaxPooling2D` | `2×2` | 🔻 Shrinks the picture (32→16), keeping the strongest signals. |
+| 4 | `Conv2D` | `64` filters, `3×3` | 🔍 Finds shapes built from those edges. |
+| 5 | `MaxPooling2D` | `2×2` | 🔻 Shrinks again (16→8). |
+| 6 | `Conv2D` | `128` filters, `3×3` | 🔍 Finds whole parts — ears, wheels, wings. |
+| 7 | `MaxPooling2D` | `2×2` | 🔻 Shrinks again (8→4). |
+| 8 | `Flatten` | — | 📋 Lines up the 4×4×128 grid into one list of 2048 numbers. |
+| 9 | `Dense` | `128`, ReLU | 🧠 Combines all the clues into the image's "fingerprint". |
+| 10 | `Dropout` | `0.3` | 🎲 Randomly ignores 30% of clues while training, to stop memorising. |
+| 11 | `Dense` | `10`, Softmax | 🪣 Final vote — a probability for each of the 10 classes. |
+
+> **Why the filters grow `32 → 64 → 128`:** early layers spot *simple* things (a
+> few filters are enough), deeper layers spot *complex* things (so they need more).
+> Only `Conv2D` and `Dense` layers learn — the rest just reshape or shrink the data.
+
 ---
 
 ## 📊 Results
