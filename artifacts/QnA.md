@@ -1,8 +1,7 @@
 # 💡 CIFAR-10 CNN — Questions & Answers
 
-A plain-English reference covering the core ideas behind this project and the
-concepts most commonly discussed across the AI/ML field today. Grouped by
-topic; every answer is written to be understood by anyone, no background needed.
+Covering the core ideas behind this project and the
+concepts most commonly discussed across the AI/ML field today.
 
 ## 📑 Contents
 
