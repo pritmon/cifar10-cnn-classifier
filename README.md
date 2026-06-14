@@ -119,28 +119,6 @@ Each box reads top-to-bottom: the **plain-English step** first, the **real layer
 name and numbers** in italics underneath — so a curious reader and a developer
 both get what they need from the same picture.
 
-### Layer reference
-
-The model is a stack of 11 layers, run in order from top to bottom:
-
-| # | Layer | Setting | What it does (easy English) |
-|:-:|-------|---------|------------------------------|
-| 1 | `Input` | `32×32×3` | Sets the photo size — 32×32 pixels, 3 colours (red, green, blue). |
-| 2 | `Conv2D` | `32` filters, `3×3` | 🔍 Finds simple patterns — edges and colours. |
-| 3 | `MaxPooling2D` | `2×2` | 🔻 Shrinks the picture (32→16), keeping the strongest signals. |
-| 4 | `Conv2D` | `64` filters, `3×3` | 🔍 Finds shapes built from those edges. |
-| 5 | `MaxPooling2D` | `2×2` | 🔻 Shrinks again (16→8). |
-| 6 | `Conv2D` | `128` filters, `3×3` | 🔍 Finds whole parts — ears, wheels, wings. |
-| 7 | `MaxPooling2D` | `2×2` | 🔻 Shrinks again (8→4). |
-| 8 | `Flatten` | — | 📋 Lines up the 4×4×128 grid into one list of 2048 numbers. |
-| 9 | `Dense` | `128`, ReLU | 🧠 Combines all the clues into the image's "fingerprint". |
-| 10 | `Dropout` | `0.3` | 🎲 Randomly ignores 30% of clues while training, to stop memorising. |
-| 11 | `Dense` | `10`, Softmax | 🪣 Final vote — a probability for each of the 10 classes. |
-
-> **Why the filters grow `32 → 64 → 128`:** early layers spot *simple* things (a
-> few filters are enough), deeper layers spot *complex* things (so they need more).
-> Only `Conv2D` and `Dense` layers learn — the rest just reshape or shrink the data.
-
 ---
 
 ## 📊 Results
@@ -227,15 +205,17 @@ Every tool here was picked for a specific reason. Plain-English explanations bel
 
 </div>
 
-| Layer / function | Job | Why we need it |
-|------------------|-----|----------------|
-| 🟦 `Sequential` | Stacks layers top-to-bottom | The simplest way to build a model — data flows straight through, layer by layer. |
-| 🔵 `Conv2D` | Slides a filter over the image to find patterns | The "eyes" of the model — detects edges, then shapes, then object parts. |
-| 🟢 `MaxPooling2D` | Shrinks the image, keeping the strongest signal | Makes the model faster and helps it focus on the *big picture*, not exact pixels. |
-| ⚪ `Flatten` | Turns the 2D grid into a 1D list | Bridges the image part and the decision part of the network. |
-| 🟣 `Dense` | Fully-connected decision layer | Combines all the clues to decide the final answer (10 outputs = 10 classes). |
-| 🟠 `Dropout(0.3)` | Randomly ignores 30% of neurons while training | Stops the model from memorising — forces it to learn many backup clues. |
-| 🟦 `RandomFlip` / `RandomRotation` / `RandomZoom` | Randomly tweak images during training | Free extra variety so the model learns the real object, not one exact photo. |
+| # | Layer | Settings (used here) | What it does (easy English) |
+|:-:|-------|----------------------|------------------------------|
+| 1 | 🟦 `Sequential` | — (the container) | The conveyor belt that holds every layer and passes the data through them top → bottom, in order. |
+| 2 | 🔵 `Conv2D` | `32 → 64 → 128` filters, `3×3` window | 🔍 The model's **eyes** — slides small filters over the image to spot patterns: edges first, then shapes, then whole parts. More filters deeper = more complex patterns. |
+| 3 | 🟢 `MaxPooling2D` | `2×2` | 🔻 **Shrinks** the picture (32→16→8→4), keeping only the strongest signal in each patch, so deeper layers see the *big picture*, not single pixels. |
+| 4 | ⚪ `Flatten` | — | 📋 **Lines up** the final 4×4×128 grid into one long list of 2048 numbers — the bridge from "looking" to "deciding". |
+| 5 | 🟣 `Dense` | `128`, then `10` | 🧠 The **thinking** layer — combines all the clues. The first (128) makes a "fingerprint"; the last (10) gives one score per class. |
+| 6 | 🟠 `Dropout` | `0.3` | 🎲 Randomly **switches off 30%** of neurons while training, so the model can't lean on one clue — it stops memorising (a "no cheating" rule). |
+| 7 | 🟩 `RandomFlip` / `RandomRotation` / `RandomZoom` | flip · ±10% rotate · ±10% zoom | 🌀 **Augmentation** — randomly tweaks each image during training so the model learns the *real object*, not one exact photo. |
+
+> **Reading the model in order:** the actual stack runs `Conv2D→MaxPool` three times (steps 2–3, repeated), then `Flatten → Dense → Dropout → Dense(10)`. The augmentation layers (7) sit at the very front and only act during training — see the flowchart in [How it works](#-how-it-works) for the exact sequence.
 
 ### ⚙️ Key functions (the workflow)
 
