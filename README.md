@@ -268,14 +268,26 @@ Every tool here was picked for a specific reason. Plain-English explanations bel
 cifar10-cnn-classifier/
 ├── train.py                 # baseline trainer (build → train → save)
 ├── train_augmented.py       # augmented trainer (higher accuracy)
-├── predict.py               # load a model, classify any image
+├── predict.py               # load a model, classify any image (CLI)
+├── app.py                   # Gradio web app (drag-and-drop demo)
 ├── make_sample_images.py    # save a few real CIFAR-10 images to test on
 ├── model/                   # trained models (.keras)
+│   ├── cifar10_model.keras            # baseline
+│   └── cifar10_model_augmented.keras  # augmented (deployed)
 ├── sample_images/           # ready-to-use test images
+├── huggingface_space/       # self-contained bundle deployed to HF Spaces
+│   ├── app.py               # flat-path version for the Space
+│   ├── requirements.txt     # Space pins (Gradio 5)
+│   └── README.md            # Space config + the model & example images
 ├── requirements.txt
 ├── LICENSE
 └── README.md
 ```
+
+> The `huggingface_space/` folder is a **self-contained deploy bundle** — it
+> intentionally carries its own copy of the model and example images so it can
+> be uploaded to [Hugging Face Spaces](https://huggingface.co/spaces/prithugging/cifar10-cnn-classifier)
+> as-is, with no path juggling.
 
 ---
 
