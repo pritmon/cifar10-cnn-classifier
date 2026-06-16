@@ -37,7 +37,6 @@ It classifies 32×32 colour images into **10 classes**:
 ## ✨ Highlights
 
 - 🧱 **3-block CNN** built with the clean Keras `Sequential` API
-- 📝 **Every block commented** — written to be read, not just run
 - 🔁 **Two trainers**: a baseline (`train.py`) and an augmented, higher-accuracy version (`train_augmented.py`)
 - 🎛️ **Data augmentation** (flip / rotate / zoom) that measurably improves the hardest classes
 - 🔮 **One-command prediction** on any image, with top-3 guesses and confidence
